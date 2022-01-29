@@ -1,4 +1,3 @@
-
 import re
 import string
 import pandas as pd 
@@ -26,13 +25,12 @@ def parse(user_input,start_symbol,parsingTable):
 		#element at top of stack
 		top = stack[len(stack)-1]
 
-		print "Top =>",top
+		print ("Top =>",top)
 
 		#current input
 		current_input = user_input[index]
 
-		print "Current_Input => ",current_input
-
+		print ("Current_Input => ",current_input)
 		if top == current_input:
 			stack.pop()
 			index = index + 1	
@@ -40,7 +38,7 @@ def parse(user_input,start_symbol,parsingTable):
 
 			#finding value for key in table
 			key = top , current_input
-			print key
+			print( key)
 
 			#top of stack terminal => not accepted
 			if key not in parsingTable:
@@ -62,15 +60,15 @@ def parse(user_input,start_symbol,parsingTable):
 				stack.pop()		
 
 	if flag == 0:
-		print "String accepted!"
+		print ("String accepted!")
 	else:
-		print "String not accepted!"	
+		print ("String not accepted!")	
 
 
 
 def ll1(follow, productions):
 	
-	print "\nParsing Table\n"
+	print ("\nParsing Table\n")
 
 	table = {}
 	for key in productions:
@@ -83,7 +81,7 @@ def ll1(follow, productions):
 					table[key, element] = value
 
 	for key,val in table.items():
-		print key,"=>",val
+		print (key,"=>",val)
 
 	new_table = {}
 	for pair in table:
@@ -93,10 +91,10 @@ def ll1(follow, productions):
 		new_table[pair[1]][pair[0]] = table[pair]
 
 
-	print "\n"
-	print "\nParsing Table in matrix form\n"
-	print pd.DataFrame(new_table).fillna('-')
-	print "\n"
+	print ("\n")
+	print ("\nParsing Table in matrix form\n")
+	print (pd.DataFrame(new_table).fillna('-'))
+	print ("\n")
 
 	return table
 
@@ -164,14 +162,14 @@ if __name__=="__main__":
 			start = lhs
 		productions[lhs] = rhs
 	
-	print '\nFirst\n'
+	print ('\nFirst\n')
 	for lhs in productions:
 		first_dict[lhs] = first(lhs, productions)
 	for f in first_dict:
-		print str(f) + " : " + str(first_dict[f])
-	print ""
+		print (str(f) + " : " + str(first_dict[f]))
+	print ("")
 	
-	print '\nFollow\n'
+	print ('\nFollow\n')
 	
 	for lhs in productions:
 		follow_dict[lhs] = set()
@@ -185,7 +183,7 @@ if __name__=="__main__":
 		follow_dict = follow(lhs, productions, follow_dict)
 	
 	for f in follow_dict:
-		print str(f) + " : " + str(follow_dict[f])
+		print ( str(f) + " : " + str(follow_dict[f]))
 
 	ll1Table = ll1(follow_dict, productions)
 
